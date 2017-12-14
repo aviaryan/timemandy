@@ -19,8 +19,16 @@ source activate timemanager
 # source deactivate
 ```
 
-PS - To delete the environment, run 
+PS - To delete the environment, run
 
 ```sh
 conda remove --name timemanager --all
+```
+
+-------
+
+The next step is to install requirements. After making sure that you have activated the virtualenv, run the following command.
+
+```sh
+pip install -r requirements.txt
 ```

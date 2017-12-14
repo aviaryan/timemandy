@@ -24,3 +24,7 @@ class ProductionConfig(Config):
 
 class SQLiteConfig(Config):
     SQLALCHEMY_DATABASE_URI = SQLITE_PATH
+
+
+class TestingConfig(Config):
+    SQLALCHEMY_DATABASE_URI = LOCAL_PSQLDB_URL + '_test'

@@ -5,7 +5,7 @@ from .utils import create_users
 
 class TimeManagerTestCase(unittest.TestCase):
     def setUp(self):
-        app.config.from_object('config.SQLiteConfig')
+        app.config.from_object('config.TestingConfig')
         app.config['TESTING'] = True
         app.secret_key = 'super secret key'
         with app.test_request_context():

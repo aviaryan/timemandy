@@ -8,7 +8,7 @@ class TestUserDelete(TimeManagerTestCase):
 
     def check_account_deleted(self, user_id):
         token = login(self, 'admin1@gmail.com', 'password')
-        resp = send_get_request(self, token, 'api/v1/users/' + str(user_id))
+        resp = send_get_request(self, 'api/v1/users/' + str(user_id), token=token)
         self.assertNotEqual(resp.status_code, 200)
 
     def test_normal_can_delete_own_account(self):

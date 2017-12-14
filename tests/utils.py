@@ -49,6 +49,22 @@ def create_users():
     user_dao.create(user6)
 
 
+def create_task(interface, token, msg=''):
+    resp = interface.app.post(
+        'api/v1/tasks',
+        data=json.dumps({
+            'title': 'my task ' + msg,
+            'minutes': 70,
+            'date': '2017-12-13T00:23:00',
+        }),
+        headers={
+            'Authorization': 'Bearer ' + token,
+            'content-type': 'application/json'
+        }
+    )
+    return resp
+
+
 def login(interface, email, password):
     resp = interface.app.post(
         'api/v1/auth/login',
@@ -64,10 +80,13 @@ def login(interface, email, password):
     return data['token']
 
 
-def send_get_request(interface, token, path):
+def send_get_request(interface, path, token=None):
+    headers = {'content-type': 'application/json'}
+    if token:
+        headers['Authorization'] = 'Bearer ' + token
     resp = interface.app.get(
         path,
-        headers={'Authorization': 'Bearer ' + token}
+        headers=headers
     )
     return resp
 

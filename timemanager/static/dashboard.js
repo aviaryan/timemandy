@@ -150,6 +150,18 @@ function updateToUserOnlyModeIfNeeded(){
 }
 
 
+function handleFilter(){
+	var from_ = $("#from_date").val();
+	var to = $("#to_date").val();
+	getUserTasks(from_, to);
+}
+
+function handleFilterClear(){
+	$("#from_date").val('');
+	$("#to_date").val('');
+	getUserTasks();
+}
+
 function taskEdit(event){
 	var z = $(event.target);
 	var row = z.parent();
@@ -203,10 +215,15 @@ function getUserInfo(){
 	});
 }
 
-function getUserTasks(){
+function getUserTasks(from_date, to_date){
+	var qp = '';
+	if (from_date !== undefined){
+		qp = '&from=' + from_date + '&to=' + to_date;
+	}
+
 	$.ajax({
 		type: 'GET',
-		url: '/api/v1/tasks' + (userObj.is_admin ? '/all' : '') + '?order_by=date.desc',
+		url: '/api/v1/tasks' + (userObj.is_admin ? '/all' : '') + '?order_by=date.desc' + qp,
 		dataType: 'json',
 		beforeSend: function(request) {
 	    request.setRequestHeader("Authorization", 'Bearer ' + token);

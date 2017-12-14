@@ -127,9 +127,34 @@
 
   <div>
     {{#if isAdmin}}
-      <button class="btn btn-primary" id="adminSwitchBtn" on-click="@global.handleAdminSwitch()">{{adminTaskFilterText}}</button>
+    <button class="btn btn-primary" id="adminSwitchBtn" on-click="@global.handleAdminSwitch()">{{adminTaskFilterText}}</button>
     {{/if}}
     <button class="btn btn-success" data-toggle="modal" data-target="#newModal">Add new record</button>
+  </div>
+
+  <div class="mt-3">
+    <form style="width: 800px;" onsubmit="return false;">
+      <div class="row">
+        <div class="col-md-2">
+          <input type="text" readonly class="form-control-plaintext" value="Filter (from-to)">
+        </div>
+        <div class="col-md-3">
+          <input type="date" class="form-control" id="from_date">
+        </div>
+        <div class="col-md-3">
+          <input type="date" class="form-control" id="to_date">
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-success" on-click="@global.handleFilter()">Filter</button>
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-danger" on-click="@global.handleFilterClear()">Clear</button>
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-success">Export</button>
+        </div>
+      </div>
+    </form>
   </div>
 
   <div class="mt-4">
@@ -147,19 +172,19 @@
       <tbody>
         {{#each tasks}}
         <tr on-click="@global.taskEdit(@event)"
-          {{#if color_red}} class="red" {{/if}}
-          {{#if color_green}} class="green" {{/if}}>
-          <td class="hide task_id">{{id}}</td>
-          <td class="task_user_id">{{user_id}}</td>
-          <td class="task_title">{{title}}</td>
-          <td class="task_date">{{date.replace(/T.*/, '')}}</td>
-          <td class="task_minutes">{{minutes}}</td>
-          <td class="task_comments">{{comments}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+        {{#if color_red}} class="red" {{/if}}
+        {{#if color_green}} class="green" {{/if}}>
+        <td class="hide task_id">{{id}}</td>
+        <td class="task_user_id">{{user_id}}</td>
+        <td class="task_title">{{title}}</td>
+        <td class="task_date">{{date.replace(/T.*/, '')}}</td>
+        <td class="task_minutes">{{minutes}}</td>
+        <td class="task_comments">{{comments}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
 </script>
 
 {% endraw %}

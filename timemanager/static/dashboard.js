@@ -162,6 +162,36 @@ function handleFilterClear(){
 	getUserTasks();
 }
 
+
+function handleFilterExport(){
+	var print_tasks = [];
+	var days = {};
+	var times = {};
+
+	allTasks.forEach(function(task){
+		var date = task.date.replace(/T.*/, '');
+		if (date in days){
+			days[date].push(task);
+			times[date] += task.minutes;
+		} else {
+			days[date] = [task];
+			times[date] = task.minutes;
+		}
+	});
+
+	for (key in days){
+		print_tasks.push({date: key, tasks: days[key], duration: times[key]});
+	}
+	console.log(print_tasks);
+
+	ractive.set('day_records', print_tasks);
+
+	var mywindow = window.open('', 'Filtered Tasks', 'height=600,width=800');
+	var data = $("#print_table")[0].outerHTML;
+	mywindow.document.write(data);
+}
+
+
 function taskEdit(event){
 	var z = $(event.target);
 	var row = z.parent();

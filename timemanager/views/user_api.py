@@ -8,6 +8,7 @@ from timemanager.helpers.database import save_to_db
 from timemanager.helpers.auth import hash_password
 from timemanager.helpers.errors import ValidationError
 from timemanager.helpers.utils import AUTH_HEADER_DEFN
+from timemanager.helpers.permissions import has_user_access, staff_only
 
 
 api = Namespace('users', description='Users', path='/')  # noqa
@@ -55,6 +56,7 @@ DAO = UserDAO(UserModel, USER_POST, USER_PUT)
 @api.route('/users/<int:user_id>')
 class User(Resource):
     @login_required
+    @has_user_access
     @api.header(*AUTH_HEADER_DEFN)
     @api.doc('get_user')
     @api.marshal_with(USER)
@@ -63,6 +65,7 @@ class User(Resource):
         return DAO.get(user_id)
 
     @login_required
+    @has_user_access
     @api.header(*AUTH_HEADER_DEFN)
     @api.doc('update_user')
     @api.marshal_with(USER)
@@ -94,6 +97,7 @@ class UserList(Resource):
 
     @api.header(*AUTH_HEADER_DEFN)
     @login_required
+    @staff_only
     @api.doc('list_users')
     @api.marshal_list_with(USER_COMPLETE)
     def get(self):

@@ -1,4 +1,5 @@
 from flask_login import LoginManager
+from flask import g
 
 from timemanager import app
 from timemanager.helpers.errors import NotAuthorizedError
@@ -19,6 +20,10 @@ def load_user(user_id):
 def load_user_from_header(header_val):
     header_val = header_val.replace('Bearer ', '', 1)
     user = decode_token(header_val)
+    # set user status
+    g.is_admin = user.is_admin
+    g.is_manager = user.is_manager
+    # return the user
     return user
 
 

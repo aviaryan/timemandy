@@ -22,3 +22,4 @@ logger.setLevel(logging.INFO)
 
 # late import views
 import timemanager.views  # noqa
+import timemanager.helpers.login_manager  # noqa

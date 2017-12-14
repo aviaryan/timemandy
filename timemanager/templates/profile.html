@@ -30,13 +30,14 @@
 
   <div class="form-group">
   <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" value="" name="is_admin" checked='{{user.is_admin}}'>
+    <input class="form-check-input" type="checkbox" value="" name="is_admin" checked='{{user.is_admin}}' disabled="{{!oldUser.is_admin}}">
     Is Admin?
   </label>
 
   <div class="form-group">
   <label class="form-check-label">
-    <input class="form-check-input" type="checkbox" value="" name="is_manager" checked='{{user.is_manager}}'>
+    <input class="form-check-input" type="checkbox" value="" name="is_manager" checked='{{user.is_manager}}'
+      disabled="{{ !(oldUser.is_admin||oldUser.is_manager) }}">
     Is Manager?
   </label>
 </div>

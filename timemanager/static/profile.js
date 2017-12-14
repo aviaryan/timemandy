@@ -5,7 +5,11 @@ var userObj;
 
 $(document).ready(function(){
 	checkLogin();
-	// $('#saveUserBtn').click(handleSave);
+	$('#logoutButton').click(function(){
+		deleteCookie('token');
+		checkLogin();
+	});
+
 	token = getCookie('token');
 	// load data
 	loadData();
@@ -39,7 +43,8 @@ function getUserInfo(){
 	  },
 		success: function(resp){
 			userObj = resp;
-			ractive.set('user', userObj)
+			ractive.set('user', userObj);
+			ractive.set('oldUser', userObj); // not live updated
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);
@@ -63,6 +68,7 @@ function handleSave(){
 		contentType: 'application/json',
 		success: function(resp){
 			console.log(resp);
+			ractive.set('oldUser', userObj); // not live updated
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

@@ -5,7 +5,10 @@ var userObj;
 
 $(document).ready(function(){
 	checkLogin();
-	$('#logoutButton').click(handleLogout);
+	$('#logoutButton').click(function(){
+		deleteCookie('token');
+		checkLogin();
+	});
 	$("#taskSaveBtn").click(handleTaskSave);
 	$("#taskUpdateBtn").click(handleTaskUpdate);
 	$("#taskDeleteBtn").click(handleTaskDelete);
@@ -17,11 +20,6 @@ $(document).ready(function(){
 	// load data
 	loadData();
 });
-
-function handleLogout(){
-	deleteCookie('token');
-	checkLogin();
-}
 
 
 // task new modal

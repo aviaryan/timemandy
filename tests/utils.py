@@ -95,3 +95,14 @@ def send_put_request(interface, path, data, token=None):
         follow_redirects=True
     )
     return resp
+
+def send_delete_request(interface, path, token=None):
+    headers = {}
+    if token:
+        headers['Authorization'] = 'Bearer ' + token
+    resp = interface.app.delete(
+        path,
+        headers=headers,
+        follow_redirects=True
+    )
+    return resp

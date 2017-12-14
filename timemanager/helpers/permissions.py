@@ -40,7 +40,7 @@ def has_user_access(func):
 
         if user.is_admin:  # all good
             return func(*args, **kwargs)
-        if user.is_manager and (not g.current_user.is_manager and not g.current_user.is_admin):  # manager case
+        if user.is_manager and (not target_user.is_manager and not target_user.is_admin):  # manager case
             return func(*args, **kwargs)
         if user.id == target_user.id:
             return func(*args, **kwargs)

@@ -72,7 +72,8 @@ def delete_from_db(item, msg='Deleted from db'):
     Delete from database
     """
     try:
-        result = db.engine.execute("delete from {} where id={}".format(item.__table__, item.id))
+        result = db.engine.execute("delete from \"{}\" where id={}".format(item.__table__, item.id))
+        # ^^ quotes so that "user" works
         print(result)
         # ^^ experimental
         # db.session.delete(item)

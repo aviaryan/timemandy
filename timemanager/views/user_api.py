@@ -88,6 +88,15 @@ class User(Resource):
         """Update a user given its id"""
         return DAO.update(user_id, self.api.payload)
 
+    @login_required
+    @has_user_access
+    @api.header(*AUTH_HEADER_DEFN)
+    @api.doc('delete_user')
+    @api.marshal_with(USER)
+    def delete(self, user_id):
+        """Delete a user given its id"""
+        return DAO.delete(user_id, user_id=None)
+
 
 @api.header(*AUTH_HEADER_DEFN)
 @api.route('/users/user')

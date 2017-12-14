@@ -2,6 +2,7 @@ import hashlib, uuid
 import jwt
 from timemanager import app
 from timemanager.models.user_model import User
+from .errors import NotAuthorizedError
 
 
 def hash_password(password, salt=None):
@@ -27,6 +28,9 @@ def generate_token(user):
 
 def decode_token(token):
     secret = app.config['SECRET_KEY']
-    data = jwt.decode(token, secret, algorithms=['HS256'])
+    try:
+        data = jwt.decode(token, secret, algorithms=['HS256'])
+    except:
+        raise NotAuthorizedError('Authentication failed')
     user = User.query.get(data['id'])
     return user

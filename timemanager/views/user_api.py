@@ -1,11 +1,12 @@
 from flask_restplus import Namespace, Resource, fields
-from flask_login import login_required, current_user
+from flask_login import login_required
+from flask import g
 
 from timemanager.models.user_model import User as UserModel  # noqa
 
 from timemanager.helpers.dao import BaseDAO
 from timemanager.helpers.database import save_to_db
-from timemanager.helpers.auth import hash_password
+from timemanager.helpers.auth import hash_password, login_optional
 from timemanager.helpers.errors import ValidationError
 from timemanager.helpers.utils import AUTH_HEADER_DEFN
 from timemanager.helpers.permissions import has_user_access, staff_only
@@ -19,11 +20,8 @@ USER = api.model('User', {
     'username': fields.String(required=True),
     'pref_wh': fields.Float(),
     'full_name': fields.String(),
-})
-
-USER_COMPLETE = api.clone('UserFull', USER, {
-    'is_admin': fields.Boolean(required=True),
-    'is_manager': fields.Boolean(required=True)
+    'is_admin': fields.Boolean(default=False),
+    'is_manager': fields.Boolean(default=False),
 })
 
 USER_POST = api.clone('UserPost', USER, {
@@ -38,6 +36,8 @@ class UserDAO(BaseDAO):
     def create(self, data):
         # validate
         data = self.validate(data)
+        # fix access level
+        data = self.fix_access_levels(data)
         # set password
         data = self.update_password(data)
         # save to database
@@ -57,11 +57,32 @@ class UserDAO(BaseDAO):
     def update(self, id_, data):
         # validate
         data = self.validate(data, check_required=False)
+        # fix access level
+        data = self.fix_access_levels(data, id_=id_)
         # update password
         if data.get('password'):
             data = self.update_password(data)
         # save
         return super(UserDAO, self).update(id_, data, validate=False, user_id=None)
+
+    def fix_access_levels(self, data, id_=None):
+        """
+        fixes is_admin and is_manager levels
+        """
+        current_user = g.current_user
+        # solve
+        if current_user and current_user.is_admin:  # all is good
+            return data
+        if current_user and current_user.is_manager:  # can change own power, not anyone else
+            if current_user.id == id_:
+                data['is_admin'] = False  # don't allow to make them admin
+            return data
+        # normal user case
+        data['is_admin'] = False
+        data['is_manager'] = False
+        return data
+
+
 
 
 DAO = UserDAO(UserModel, USER_POST, USER_PUT)
@@ -106,11 +127,13 @@ class UserCurrent(Resource):
     @api.marshal_with(USER)
     def get(self):
         """Fetch the current user"""
-        return DAO.get(current_user.id)
+        return DAO.get(g.current_user.id)
 
 
 @api.route('/users')
 class UserList(Resource):
+    @api.header(*AUTH_HEADER_DEFN)
+    @login_optional
     @api.doc('create_user')
     @api.marshal_with(USER)
     @api.expect(USER_POST)
@@ -122,7 +145,7 @@ class UserList(Resource):
     @login_required
     @staff_only
     @api.doc('list_users')
-    @api.marshal_list_with(USER_COMPLETE)
+    @api.marshal_list_with(USER)
     def get(self):
         """List all users"""
         # TODO: make it admin only

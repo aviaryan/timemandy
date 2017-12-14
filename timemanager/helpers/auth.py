@@ -1,5 +1,7 @@
 import hashlib, uuid
 import jwt
+from flask import request, g
+from functools import wraps
 from timemanager import app
 from timemanager.models.user_model import User
 from .errors import NotAuthorizedError
@@ -34,3 +36,23 @@ def decode_token(token):
         raise NotAuthorizedError('Authentication failed')
     user = User.query.get(data['id'])
     return user
+
+
+def get_user_from_header(header_val):
+    header_val = header_val.replace('Bearer ', '', 1)
+    user = decode_token(header_val)
+    # set user status
+    g.current_user = user
+    # return
+    return user
+
+
+def login_optional(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        auth = request.headers.get('Authorization')
+        g.current_user = None
+        if auth:
+            get_user_from_header(auth)  # already sets login
+        return func(*args, **kwargs)
+    return wrapper

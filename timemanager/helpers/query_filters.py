@@ -1,7 +1,5 @@
-# from sqlalchemy import or_, func
-
-
-# RESOURCE http://www.leeladharan.com/sqlalchemy-query-with-or-and-like-common-filters
+from timemanager.models.task_model import Task
+from .custom_fields import DateTime
 
 
 def extract_special_queries(queries):
@@ -29,14 +27,20 @@ def apply_special_queries(query, specials):
 
 # DEFINE CUSTOM FILTERS BELOW
 
+def task_from(value, query):
+    return query.filter(Task.date >= DateTime().from_str_query(value))
 
+
+def task_to(value, query):
+    return query.filter(Task.date <= DateTime().from_str_query(value, True))
 
 
 # ADD CUSTOM FILTERS TO LIST
 
 
 FILTERS_LIST = {
-
+    '__task_to': task_to,
+    '__task_from': task_from,
 }
 
 

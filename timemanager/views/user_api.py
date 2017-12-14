@@ -38,17 +38,31 @@ class UserDAO(BaseDAO):
     def create(self, data):
         # validate
         data = self.validate(data)
-        # gen phash
-        phash, salt = hash_password(data['password'])
-        del data['password']
-        data['phash'] = phash
-        data['salt'] = salt.decode('utf-8')
+        # set password
+        data = self.update_password(data)
         # save to database
         user = self.model(**data)
         if not save_to_db(user):
             raise ValidationError('email', 'The username or email already exists')
         # return token at login
         return self.get(user.id), 201
+
+    def update_password(self, data):
+        phash, salt = hash_password(data['password'])
+        del data['password']
+        data['phash'] = phash
+        data['salt'] = salt.decode('utf-8')
+        return data
+
+    def update(self, id_, data):
+        # validate
+        data = self.validate(data, check_required=False)
+        # update password
+        if data.get('password'):
+            data = self.update_password(data)
+        # save
+        return super(UserDAO, self).update(id_, data, validate=False, user_id=None)
+
 
 DAO = UserDAO(UserModel, USER_POST, USER_PUT)
 

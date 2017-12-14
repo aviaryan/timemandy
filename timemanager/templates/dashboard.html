@@ -33,6 +33,29 @@
 {% raw %}
 <script id="template" type="text/ractive">
   <h1 class="text-center">Hi {{name}}</h1>
+
+  <div class="mt-4">
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Date</th>
+          <th scope="col">Duration (min)</th>
+          <th scope="col">Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tasks}}
+        <tr>
+          <td>{{title}}</td>
+          <td>{{date}}</td>
+          <td>{{minutes}}</td>
+          <td>{{comments}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </script>
 {% endraw %}
 

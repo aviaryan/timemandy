@@ -23,6 +23,7 @@ function loadData(){
 	});
 
 	getUserInfo();
+	getUserTasks();
 }
 
 function getUserInfo(){
@@ -37,6 +38,24 @@ function getUserInfo(){
 			userObj = resp;
 			var name = resp['fullname'] || resp['username'];
 			ractive.set('name', name);
+		},
+		error: function(xhr, status, error){
+			console.log(xhr.responseJSON['message']);
+		}
+	});
+}
+
+function getUserTasks(){
+	$.ajax({
+		type: 'GET',
+		url: '/api/v1/tasks',
+		dataType: 'json',
+		beforeSend: function(request) {
+	    request.setRequestHeader("Authorization", 'Bearer ' + token);
+	  },
+		success: function(resp){
+			console.log(resp);
+			ractive.set('tasks', resp);
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

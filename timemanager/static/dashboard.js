@@ -32,7 +32,7 @@ $('#newModal').on('show.bs.modal', function (event) {
 
 
 function handleTaskSave(){
-	var user_id = $("addUserID").val();
+	var user_id = $("#addUserID").val();
 	var title = $('#addTitle').val();
 	var date = $('#addDate').val() + 'T00:00:00';
 	var duration = $('#addDuration').val();

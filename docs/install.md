@@ -59,6 +59,7 @@ python manage.py runserver
 Occassionally, you might need to do database upgrades as well (when database changes). For that use the following comamnds.
 
 ```sh
+# python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 ```

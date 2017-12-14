@@ -35,3 +35,5 @@ def default_error_handler(error):
 
 
 # import API routes
+from .user_api import api as user_api
+api.add_namespace(user_api)

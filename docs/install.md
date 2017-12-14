@@ -32,3 +32,16 @@ The next step is to install requirements. After making sure that you have activa
 ```sh
 pip install -r requirements.txt
 ```
+
+Then the next step is creating the database. We are using Postgres here.
+
+```sql
+create user tmadmin with password 'tmadmin';
+create database timemanager with owner=tmadmin;
+```
+
+Now, we need to set the DATABASE_URL to environment.
+
+```sh
+export DATABASE_URL=postgresql://tmadmin:tmadmin@localhost:5432/timemanager
+```

@@ -7,6 +7,8 @@ $(document).ready(function(){
 	checkLogin();
 	$('#logoutButton').click(handleLogout);
 	$("#taskSaveBtn").click(handleTaskSave);
+	$("#taskUpdateBtn").click(handleTaskUpdate);
+	$("#taskDeleteBtn").click(handleTaskDelete);
 	token = getCookie('token');
 	// set default date
 	var today = new Date();
@@ -29,6 +31,13 @@ $('#newModal').on('show.bs.modal', function (event) {
   $("#addUserID").val(userObj.id);
   $("#addUserID").prop('disabled', !userObj.is_admin);
 })
+
+// task edit modal
+
+$('#editModal').on('show.bs.modal', function (event) {
+	$("#editTaskErrorMessage").text('');
+  $("#editUserID").prop('disabled', !userObj.is_admin);
+});
 
 
 function handleTaskSave(){
@@ -62,6 +71,42 @@ function handleTaskSave(){
 	});
 }
 
+function handleTaskUpdate(){
+	var user_id = $("#editUserID").val();
+	var title = $('#editTitle').val();
+	var date = $('#editDate').val() + 'T00:00:00';
+	var duration = $('#editDuration').val();
+	var comments = $('#editComments').val();
+	var id = $("#editID").val();
+
+	var obj = {title: title, date: date, minutes: duration, comments: comments, user_id: user_id};
+
+	$.ajax({
+		type: 'PUT',
+		url: '/api/v1/tasks/' + id,
+		dataType: 'json',
+		beforeSend: function(request) {
+	    request.setRequestHeader("Authorization", 'Bearer ' + token);
+	  },
+		data: JSON.stringify(obj),
+		contentType: 'application/json',
+		success: function(resp){
+			console.log(resp);
+			$('#editModal').modal('hide'); // hide modal
+			// update
+			getUserTasks();
+		},
+		error: function(xhr, status, error){
+			console.log(xhr.responseJSON['message']);
+			$("#editTaskErrorMessage").text(xhr.responseJSON['message']);
+		}
+	});
+}
+
+function handleTaskDelete(){
+	console.log('task delete');
+}
+
 // admin switch
 
 function handleAdminSwitch(){
@@ -76,6 +121,32 @@ function handleAdminSwitch(){
 		ractive.set('tasks', allTasks);
 	}
 }
+
+function updateToUserOnlyModeIfNeeded(){
+	if (ractive.get('adminTaskFilterText') === 'Show all tasks'){
+		tasks = allTasks.filter(function(row){
+			return row.user_id == userObj.id;
+		});
+		ractive.set('tasks', tasks);
+	}
+}
+
+
+function taskEdit(event){
+	var z = $(event.target);
+	var row = z.parent();
+	// set to modal
+	$('#editUserID').val(row.find('td.task_user_id')[0].textContent);
+	$('#editTitle').val(row.find('td.task_title')[0].textContent);
+	$('#editDuration').val(row.find('td.task_minutes')[0].textContent);
+	$('#editComments').val(row.find('td.task_comments')[0].textContent);
+	$('#editDate').val(row.find('td.task_date')[0].textContent);
+	$('#editID').val(row.find('td.task_id')[0].textContent);
+
+	// show modal
+	$('#editModal').modal('show'); // show modal
+}
+
 
 function loadData(){
 	ractive = new Ractive({
@@ -126,6 +197,7 @@ function getUserTasks(){
 			console.log(resp);
 			allTasks = resp;
 			ractive.set('tasks', resp);
+			updateToUserOnlyModeIfNeeded();
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

@@ -28,7 +28,7 @@
 </div>
 
 
-<!-- register modal -->
+<!-- task add modal -->
 
 <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -73,6 +73,52 @@
 </div>
 
 
+<!-- task edit modal -->
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editLabel">Update task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input type="number" class="hide" id="editID">  <!-- hidden -->
+          <div class="form-group">
+            <label for="editUserID" class="col-form-label">User ID</label>
+            <input type="number" class="form-control" id="editUserID" min="1">
+          </div>
+          <div class="form-group">
+            <label for="editTitle" class="col-form-label">Title</label>
+            <input type="text" class="form-control" id="editTitle">
+          </div>
+          <div class="form-group">
+            <label for="editDate" class="col-form-label">Date</label>
+            <input type="date" class="form-control" id="editDate">
+          </div>
+          <div class="form-group">
+            <label for="editDuration" class="col-form-label">Duration (min)</label>
+            <input type="number" class="form-control" id="editDuration" min="1" value="15">
+          </div>
+          <div class="form-group">
+            <label for="editComments" class="col-form-label">Comments</label>
+            <textarea class="form-control" id="editComments"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span id="editTaskErrorMessage" class="text-danger"></span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="taskUpdateBtn">Update Task</button>
+        <button type="button" class="btn btn-primary" id="taskDeleteBtn">Delete Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ractive templates -->
 
 
@@ -100,13 +146,13 @@
       </thead>
       <tbody>
         {{#each tasks}}
-        <tr>
-          <td class="hide">{{id}}</td>
-          <td>{{user_id}}</td>
-          <td>{{title}}</td>
-          <td>{{date.replace(/T.*/, '')}}</td>
-          <td>{{minutes}}</td>
-          <td>{{comments}}</td>
+        <tr on-click="@global.taskEdit(@event)">
+          <td class="hide task_id">{{id}}</td>
+          <td class="task_user_id">{{user_id}}</td>
+          <td class="task_title">{{title}}</td>
+          <td class="task_date">{{date.replace(/T.*/, '')}}</td>
+          <td class="task_minutes">{{minutes}}</td>
+          <td class="task_comments">{{comments}}</td>
         </tr>
         {{/each}}
       </tbody>

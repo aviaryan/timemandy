@@ -36,8 +36,6 @@ class UserDAO(BaseDAO):
     def create(self, data):
         # validate
         data = self.validate(data)
-        # fix access level
-        data = self.fix_access_levels(data)
         # set password
         data = self.update_password(data)
         # save to database
@@ -57,8 +55,6 @@ class UserDAO(BaseDAO):
     def update(self, id_, data):
         # validate
         data = self.validate(data, check_required=False)
-        # fix access level
-        data = self.fix_access_levels(data, id_=id_)
         # update password
         if data.get('password'):
             data = self.update_password(data)
@@ -107,7 +103,9 @@ class User(Resource):
     @api.expect(USER_PUT)
     def put(self, user_id):
         """Update a user given its id"""
-        return DAO.update(user_id, self.api.payload)
+        # fix access level
+        data = DAO.fix_access_levels(self.api.payload, id_=user_id)
+        return DAO.update(user_id, data)
 
     @login_required
     @has_user_access
@@ -139,7 +137,9 @@ class UserList(Resource):
     @api.expect(USER_POST)
     def post(self):
         """Create an user"""
-        return DAO.create(self.api.payload)
+        # fix access level
+        data = DAO.fix_access_levels(self.api.payload)
+        return DAO.create(data)
 
     @api.header(*AUTH_HEADER_DEFN)
     @login_required

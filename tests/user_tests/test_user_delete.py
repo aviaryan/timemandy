@@ -29,6 +29,12 @@ class TestUserDelete(TimeManagerTestCase):
         self.assertEqual(resp.status_code, 200)
         self.check_account_deleted(2)
 
+    def test_admin_can_delete_normal_account(self):
+        token = login(self, 'admin1@gmail.com', 'password')
+        resp = self.delete_account(5, token=token)
+        self.assertEqual(resp.status_code, 200)
+        self.check_account_deleted(5)
+
     def test_manager_can_delete_normal_account(self):
         token = login(self, 'man3@gmail.com', 'password')
         resp = self.delete_account(5, token=token)

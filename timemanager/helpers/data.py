@@ -38,6 +38,11 @@ def validate_payload(payload, api_model, check_required=True):
                 raise ValidationError(
                     field=key,
                     message='Required field \'{}\' missing'.format(key))
+            # another case (empty values)
+            if api_model[key].required and not payload[key]:
+                raise ValidationError(
+                    field=key,
+                    message='Required field \'{}\' empty'.format(key))
     # check payload
     for key in payload:
         field = api_model[key]

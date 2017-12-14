@@ -90,6 +90,7 @@
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
+          <th scope="col" class="hide">ID</th>
           <th scope="col">User ID</th>
           <th scope="col">Title</th>
           <th scope="col">Date</th>
@@ -100,6 +101,7 @@
       <tbody>
         {{#each tasks}}
         <tr>
+          <td class="hide">{{id}}</td>
           <td>{{user_id}}</td>
           <td>{{title}}</td>
           <td>{{date.replace(/T.*/, '')}}</td>

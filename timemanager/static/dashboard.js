@@ -53,7 +53,7 @@ function handleTaskSave(){
 		success: function(resp){
 			console.log(resp);
 			$('#newModal').modal('hide'); // hide modal
-			ractive.push('tasks', obj);
+			ractive.push('tasks', resp);
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

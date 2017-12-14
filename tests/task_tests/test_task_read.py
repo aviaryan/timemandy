@@ -36,3 +36,17 @@ class TestTaskRead(TimeManagerTestCase):
         resp = create_task(self, token, msg='normal')
         resp = send_get_request(self, 'api/v1/tasks/1')
         self.assertNotIn('normal', resp.data.decode('utf-8'))
+
+    def test_admin_can_read_own(self):
+        token = login(self, 'admin1@gmail.com', 'password')
+        resp = create_task(self, token, msg='admin')
+        self.assertIn('70', resp.data.decode('utf-8'))
+        resp = send_get_request(self, 'api/v1/tasks/1', token=token)
+        self.assertIn('admin', resp.data.decode('utf-8'))
+
+    def test_man_can_read_own(self):
+        token = login(self, 'man3@gmail.com', 'password')
+        resp = create_task(self, token, msg='man')
+        self.assertIn('70', resp.data.decode('utf-8'))
+        resp = send_get_request(self, 'api/v1/tasks/1', token=token)
+        self.assertIn('man', resp.data.decode('utf-8'))

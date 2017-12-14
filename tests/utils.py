@@ -49,14 +49,18 @@ def create_users():
     user_dao.create(user6)
 
 
-def create_task(interface, token, msg=''):
+def create_task(interface, token, msg='', user_id=None):
+    data = {
+        'title': 'my task ' + msg,
+        'minutes': 70,
+        'date': '2017-12-13T00:23:00',
+    }
+    if user_id:
+        data['user_id'] = user_id
+    # send
     resp = interface.app.post(
         'api/v1/tasks',
-        data=json.dumps({
-            'title': 'my task ' + msg,
-            'minutes': 70,
-            'date': '2017-12-13T00:23:00',
-        }),
+        data=json.dumps(data),
         headers={
             'Authorization': 'Bearer ' + token,
             'content-type': 'application/json'

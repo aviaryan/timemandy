@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+{% raw %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="#">TimeMandy</a>
@@ -12,10 +12,10 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">My Tasks</a>
+        <a class="nav-link" href="#">My Profile</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Profile</a>
+      <li class="nav-item" id="all_users_btn">
+        <a class="nav-link" href="#">Show Users</a>
       </li>
     </ul>
     <button class="btn btn-primary my-2 my-sm-0" id="logoutButton">Logout</button>
@@ -30,9 +30,16 @@
 
 <!-- ractive templates -->
 
-{% raw %}
+
 <script id="template" type="text/ractive">
   <h1 class="text-center">Hi {{name}}</h1>
+
+  <div>
+    {{#if isAdmin}}
+      <button class="btn btn-primary">Show only mine</button>
+    {{/if}}
+    <button class="btn btn-success">Add new record</button>
+  </div>
 
   <div class="mt-4">
     <table class="table table-striped">
@@ -57,8 +64,8 @@
     </table>
   </div>
 </script>
-{% endraw %}
 
+{% endraw %}
 {% endblock %}
 
 

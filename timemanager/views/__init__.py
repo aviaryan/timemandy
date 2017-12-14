@@ -41,3 +41,5 @@ api.add_namespace(user_api)
 from .auth_api import api as auth_api
 api.add_namespace(auth_api)
 
+from .task_api import api as task_api
+api.add_namespace(task_api)

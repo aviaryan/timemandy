@@ -14,9 +14,9 @@ class User(db.Model, UserMixin):
 
     pref_wh = db.Column(db.Float, nullable=False, default=0)
     full_name = db.Column(db.String(50), nullable=True)
-    # token = db.Column(db.String, nullable=False, unique=True)
 
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     is_manager = db.Column(db.Boolean, nullable=False, default=False)
 
-    # fkeys go here
+    # backrefs
+    tasks = db.relationship('Task', uselist=True, backref='user')

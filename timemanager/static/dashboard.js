@@ -20,15 +20,25 @@ function handleLogout(){
 	checkLogin();
 }
 
+
+// task new modal
+
+$('#newModal').on('show.bs.modal', function (event) {
+	$("#addTaskErrorMessage").text('');
+  $("#addUserID").val(userObj.id);
+  $("#addUserID").prop('disabled', !userObj.is_admin);
+})
+
+
 function handleTaskSave(){
+	var user_id = $("addUserID").val();
 	var title = $('#addTitle').val();
 	var date = $('#addDate').val() + 'T00:00:00';
 	var duration = $('#addDuration').val();
 	var comments = $('#addComments').val();
 	console.log(title + date);
-	$("#addTaskErrorMessage").text('');
 
-	var obj = {title: title, date: date, minutes: duration, comments: comments, user_id: userObj.id};
+	var obj = {title: title, date: date, minutes: duration, comments: comments, user_id: user_id};
 
 	$.ajax({
 		type: 'POST',
@@ -50,6 +60,8 @@ function handleTaskSave(){
 		}
 	});
 }
+
+
 
 function loadData(){
 	ractive = new Ractive({

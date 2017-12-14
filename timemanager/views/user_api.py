@@ -148,6 +148,8 @@ class UserList(Resource):
     @api.marshal_list_with(USER)
     def get(self):
         """List all users"""
-        # TODO: make it admin only
-        # also think about levels
-        return DAO.list()
+        user = g.current_user
+        if user.is_admin:
+            return DAO.list()
+        else:
+            return DAO.list(**{'is_admin': False, 'is_manager': False})

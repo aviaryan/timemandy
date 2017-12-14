@@ -7,3 +7,11 @@
 .hide {
 	display: none;
 }
+
+.red {
+	background-color: #dd0000;
+}
+
+.green {
+	background-color: #00dd00;
+}

@@ -214,11 +214,40 @@ function getUserTasks(){
 		success: function(resp){
 			console.log(resp);
 			allTasks = resp;
-			ractive.set('tasks', resp);
+			setTaskColors();
+			ractive.set('tasks', allTasks);
 			updateToUserOnlyModeIfNeeded();
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);
+		}
+	});
+}
+
+
+function setTaskColors(){
+	var matrix = {};
+	allTasks.forEach(function(task){
+		if (task.user_id !== userObj.id){
+			return;
+		}
+		var date = task.date.replace(/T.*/, '');
+		if (date in matrix){
+			matrix[date] += task.minutes;
+		} else {
+			matrix[date] = task.minutes;
+		}
+	});
+
+	allTasks.forEach(function(task, index){
+		if (task.user_id !== userObj.id){
+			return;
+		}
+		var date = task.date.replace(/T.*/, '');
+		if (matrix[date] >= userObj.pref_wh * 60){
+			allTasks[index]['color_green'] = true;
+		} else {
+			allTasks[index]['color_red'] = true;
 		}
 	});
 }

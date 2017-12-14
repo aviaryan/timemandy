@@ -1,5 +1,6 @@
 var ractive;
 var token;
+var allTasks;
 var userObj;
 
 $(document).ready(function(){
@@ -61,15 +62,29 @@ function handleTaskSave(){
 	});
 }
 
+// admin switch
 
+function handleAdminSwitch(){
+	if (ractive.get('adminTaskFilterText') === 'Show only mine'){
+		ractive.set('adminTaskFilterText', 'Show all tasks');
+		tasks = allTasks.filter(function(row){
+			return row.user_id == userObj.id;
+		});
+		ractive.set('tasks', tasks);
+	} else {
+		ractive.set('adminTaskFilterText', 'Show only mine');
+		ractive.set('tasks', allTasks);
+	}
+}
 
 function loadData(){
 	ractive = new Ractive({
 	  target: '#target',
 	  template: '#template',
-	  data: { name: 'User' }
+	  data: { name: 'User', adminTaskFilterText: 'Show only mine' }
 	});
-
+	// ractive loaded
+	// load user data
 	getUserInfo();
 }
 
@@ -109,6 +124,7 @@ function getUserTasks(){
 	  },
 		success: function(resp){
 			console.log(resp);
+			allTasks = resp;
 			ractive.set('tasks', resp);
 		},
 		error: function(xhr, status, error){

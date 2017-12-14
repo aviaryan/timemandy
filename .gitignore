@@ -4,3 +4,5 @@ __pycache__/
 
 # private
 NOTES.md
+
+*.sqlite3

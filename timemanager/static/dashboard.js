@@ -104,7 +104,27 @@ function handleTaskUpdate(){
 }
 
 function handleTaskDelete(){
+	var id = $("#editID").val();
+
 	console.log('task delete');
+	$.ajax({
+		type: 'DELETE',
+		url: '/api/v1/tasks/' + id,
+		dataType: 'json',
+		beforeSend: function(request) {
+	    request.setRequestHeader("Authorization", 'Bearer ' + token);
+	  },
+		success: function(resp){
+			console.log(resp);
+			$('#editModal').modal('hide'); // hide modal
+			// update
+			getUserTasks();
+		},
+		error: function(xhr, status, error){
+			console.log(xhr.responseJSON['message']);
+			$("#editTaskErrorMessage").text(xhr.responseJSON['message']);
+		}
+	});
 }
 
 // admin switch

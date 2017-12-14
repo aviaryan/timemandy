@@ -1,0 +1,59 @@
+{% extends "dashboard.html" %}
+
+{% block mid_content %}
+{% raw %}
+
+<div id="target">
+</div>
+
+<!-- https://ractive.js.org/tutorials/two-way-binding/ -->
+
+<script id="template" type="text/ractive">
+
+<form class="content mt-4" action="" onSubmit="return false;">
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" value="{{user.email}}">
+  </div>
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input type="text" class="form-control" id="username" placeholder="username" name="username" value="{{user.username}}">
+  </div>
+  <div class="form-group">
+    <label for="fullname">Full Name</label>
+    <input type="text" class="form-control" id="fullname" placeholder="Full Name" name="full_name" value="{{user.full_name}}">
+  </div>
+  <div class="form-group">
+    <label for="prefwh">Pref Working Hours</label>
+    <input type="number" class="form-control" id="prefwh" min="0" max="24" name="prefwh" value="{{user.pref_wh}}">
+  </div>
+
+  <div class="form-group">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" value="" name="is_admin" checked='{{user.is_admin}}'>
+    Is Admin?
+  </label>
+
+  <div class="form-group">
+  <label class="form-check-label">
+    <input class="form-check-input" type="checkbox" value="" name="is_manager" checked='{{user.is_manager}}'>
+    Is Manager?
+  </label>
+</div>
+
+  <button class="btn btn-primary" id="saveUserBtn" on-click="@global.handleSave()">Update Information</button>
+</form>
+
+<span id="errorMessage" class="text-danger"></span>
+
+</script>
+
+{% endraw %}
+{% endblock %}
+
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/1.0.0-build-99/ractive.min.js"></script>
+<script src="{{ url_for('static', filename='profile.js') }}"></script>
+{% endblock %}
+

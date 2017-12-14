@@ -40,4 +40,4 @@ from .task_api import api as task_api
 api.add_namespace(task_api)
 
 # import web route
-import website  # noqa
+import timemanager.views.website  # noqa

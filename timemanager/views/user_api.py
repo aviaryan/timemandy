@@ -1,5 +1,5 @@
 from flask_restplus import Namespace, Resource, fields
-from flask_login import login_required  #, current_user
+from flask_login import login_required, current_user
 
 from timemanager.models.user_model import User as UserModel  # noqa
 
@@ -70,6 +70,17 @@ class User(Resource):
     def put(self, user_id):
         """Update a user given its id"""
         return DAO.update(user_id, self.api.payload)
+
+
+@api.header(*AUTH_HEADER_DEFN)
+@api.route('/users/user')
+class UserCurrent(Resource):
+    @login_required
+    @api.doc('get_user_current')
+    @api.marshal_with(USER)
+    def get(self):
+        """Fetch the current user"""
+        return DAO.get(current_user.id)
 
 
 @api.route('/users')

@@ -12,11 +12,6 @@ from timemanager.helpers.errors import (
 
 api = Api(app, version='1.0', prefix='/api/v1', doc='/api/v1', title='Time Manager API')
 
-# home route
-@app.route('/')
-def home():
-    return 'This is root'
-
 
 # ERRORS
 @api.errorhandler(NotFoundError)
@@ -43,3 +38,6 @@ api.add_namespace(auth_api)
 
 from .task_api import api as task_api
 api.add_namespace(task_api)
+
+# import web route
+import website  # noqa

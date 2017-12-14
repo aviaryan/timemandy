@@ -5,7 +5,12 @@ var userObj;
 $(document).ready(function(){
 	checkLogin();
 	$('#logoutButton').click(handleLogout);
+	$("#taskSaveBtn").click(handleTaskSave);
 	token = getCookie('token');
+	// set default date
+	var today = new Date();
+	var formattedDate = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+	$("#addDate").val(formattedDate);
 	// load data
 	loadData();
 });
@@ -13,6 +18,37 @@ $(document).ready(function(){
 function handleLogout(){
 	deleteCookie('token');
 	checkLogin();
+}
+
+function handleTaskSave(){
+	var title = $('#addTitle').val();
+	var date = $('#addDate').val() + 'T00:00:00';
+	var duration = $('#addDuration').val();
+	var comments = $('#addComments').val();
+	console.log(title + date);
+	$("#addTaskErrorMessage").text('');
+
+	var obj = {title: title, date: date, minutes: duration, comments: comments, user_id: userObj.id};
+
+	$.ajax({
+		type: 'POST',
+		url: '/api/v1/tasks',
+		dataType: 'json',
+		beforeSend: function(request) {
+	    request.setRequestHeader("Authorization", 'Bearer ' + token);
+	  },
+		data: JSON.stringify(obj),
+		contentType: 'application/json',
+		success: function(resp){
+			console.log(resp);
+			$('#newModal').modal('hide'); // hide modal
+			ractive.push('tasks', obj);
+		},
+		error: function(xhr, status, error){
+			console.log(xhr.responseJSON['message']);
+			$("#addTaskErrorMessage").text(xhr.responseJSON['message']);
+		}
+	});
 }
 
 function loadData(){

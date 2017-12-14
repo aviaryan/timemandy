@@ -28,6 +28,47 @@
 </div>
 
 
+<!-- register modal -->
+
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newLabel">Add new task</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="addTitle" class="col-form-label">Title</label>
+            <input type="text" class="form-control" id="addTitle">
+          </div>
+          <div class="form-group">
+            <label for="addDate" class="col-form-label">Date</label>
+            <input type="date" class="form-control" id="addDate">
+          </div>
+          <div class="form-group">
+            <label for="addDuration" class="col-form-label">Duration (min)</label>
+            <input type="number" class="form-control" id="addDuration" min="1" value="15">
+          </div>
+          <div class="form-group">
+            <label for="addComments" class="col-form-label">Comments</label>
+            <textarea class="form-control" id="addComments"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span id="addTaskErrorMessage" class="text-danger"></span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="taskSaveBtn">Save Task</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- ractive templates -->
 
 
@@ -38,7 +79,7 @@
     {{#if isAdmin}}
       <button class="btn btn-primary">Show only mine</button>
     {{/if}}
-    <button class="btn btn-success">Add new record</button>
+    <button class="btn btn-success" data-toggle="modal" data-target="#newModal">Add new record</button>
   </div>
 
   <div class="mt-4">

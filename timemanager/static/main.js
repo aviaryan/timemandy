@@ -22,3 +22,23 @@ function getCookie(cname) {
 	}
 	return "";
 }
+
+// https://stackoverflow.com/questions/10593013/delete-cookie-by-name
+function deleteCookie(name) {
+	document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+
+function checkLogin(){
+	var token = getCookie("token");
+	console.log(window.location.pathname);
+	if (token !== ""){
+		if (window.location.pathname === "/"){
+			window.location = '/dashboard';
+		}
+	} else {
+		if (window.location.pathname !== "/"){
+			window.location = '/';
+		}
+	}
+}

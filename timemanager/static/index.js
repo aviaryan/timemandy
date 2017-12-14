@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	$('#loginBtn').click(handleLogin);
 	$('#registerBtn').click(handleRegister);
+	checkLogin();
 });
 
 
@@ -20,6 +21,7 @@ function loginUser(email, password){
 			// save token as cookie
 			setCookie('token', resp['token'], 14)
 			// redirect to dashboard page
+			checkLogin();
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

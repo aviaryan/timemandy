@@ -88,10 +88,20 @@ class TaskList(Resource):
 
     @api.header(*AUTH_HEADER_DEFN)
     @login_required
-    @admin_only
-    @api.doc('list_tasks')
+    @api.doc('list_user_tasks')
     @api.marshal_list_with(TASK)
     def get(self):
-        """List all tasks"""
-        # TODO: admin only, also think about levels
+        """List user tasks"""
+        return DAO.list(**{'user_id': g.current_user.id})
+
+
+@api.route('/tasks/all')
+class TaskListAll(Resource):
+    @api.header(*AUTH_HEADER_DEFN)
+    @login_required
+    @admin_only
+    @api.doc('list_all_tasks')
+    @api.marshal_list_with(TASK)
+    def get(self):
+        """List all tasks in the database"""
         return DAO.list()

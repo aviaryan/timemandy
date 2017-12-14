@@ -25,7 +25,16 @@ del TASK_POST['id']
 
 
 class TaskDAO(BaseDAO):
-    pass
+    def fix_user_task_access(self, data):
+        """
+        fixes the situation where a normal user tries to assign task to another user
+        """
+        current_user = g.current_user
+        if data.get('user_id') is None:  # give default user id
+            data['user_id'] = current_user.id
+        elif not current_user.is_admin:  # not an admin and cheating
+            data['user_id'] = current_user.id
+        return data['user_id']
 
 
 DAO = TaskDAO(TaskModel, TASK_POST)
@@ -50,7 +59,9 @@ class Task(Resource):
     @api.expect(TASK_POST)
     def put(self, task_id):
         """Update a task given its id"""
-        return DAO.update(task_id, self.api.payload)
+        data = self.api.payload
+        data['user_id'] = DAO.fix_user_task_access(data)
+        return DAO.update(task_id, data)
 
     @login_required
     @has_task_access
@@ -62,7 +73,7 @@ class Task(Resource):
         return DAO.delete(task_id, user_id=None)  # has_task_access already checks this
 
 
-@api.route('/task')
+@api.route('/tasks')
 class TaskList(Resource):
     @api.header(*AUTH_HEADER_DEFN)
     @login_required
@@ -71,7 +82,9 @@ class TaskList(Resource):
     @api.expect(TASK_POST)
     def post(self):
         """Create a task"""
-        return DAO.create(self.api.payload, user_id=g.current_user.id)
+        data = self.api.payload
+        data['user_id'] = DAO.fix_user_task_access(data)
+        return DAO.create(data, user_id=data['user_id'])
 
     @api.header(*AUTH_HEADER_DEFN)
     @login_required

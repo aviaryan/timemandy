@@ -38,18 +38,19 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Email</label>
-            <input type="text" class="form-control" id="email">
+            <label for="loginEmail" class="col-form-label">Email</label>
+            <input type="text" class="form-control" id="loginEmail">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Password</label>
-            <input type="password" class="form-control" id="password">
+            <label for="loginPassword" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="loginPassword">
           </div>
         </form>
       </div>
       <div class="modal-footer">
+        <span id="loginErrorMessage" class="text-danger"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Login</button>
+        <button type="button" class="btn btn-primary" id="loginBtn">Login</button>
       </div>
     </div>
   </div>
@@ -70,22 +71,23 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Email</label>
-            <input type="text" class="form-control" id="email">
+            <label for="registerEmail" class="col-form-label">Email</label>
+            <input type="text" class="form-control" id="registerEmail">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Username</label>
-            <input type="text" class="form-control" id="password">
+            <label for="registerUsername" class="col-form-label">Username</label>
+            <input type="text" class="form-control" id="registerUsername">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Password</label>
-            <input type="password" class="form-control" id="password">
+            <label for="registerPassword" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="registerPassword">
           </div>
         </form>
       </div>
       <div class="modal-footer">
+        <span id="registerErrorMessage" class="text-danger"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Sign Up</button>
+        <button type="button" class="btn btn-primary" id="registerBtn">Sign Up</button>
       </div>
     </div>
   </div>
@@ -97,3 +99,9 @@
 </div>
 
 {% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+{% endblock %}
+

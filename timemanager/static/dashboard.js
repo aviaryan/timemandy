@@ -208,7 +208,7 @@ function getUserInfo(){
 function getUserTasks(){
 	$.ajax({
 		type: 'GET',
-		url: '/api/v1/tasks' + (userObj.is_admin ? '/all' : ''),
+		url: '/api/v1/tasks' + (userObj.is_admin ? '/all' : '') + '?order_by=date.desc',
 		dataType: 'json',
 		beforeSend: function(request) {
 	    request.setRequestHeader("Authorization", 'Bearer ' + token);

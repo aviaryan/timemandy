@@ -35,12 +35,21 @@ def task_to(value, query):
     return query.filter(Task.date <= DateTime().from_str_query(value, True))
 
 
+def task_order_by(value, query):
+    col, direction = value.split('.')
+    col = getattr(Task, col)
+    if direction == 'desc':
+        col = col.desc()
+    return query.order_by(col)
+
+
 # ADD CUSTOM FILTERS TO LIST
 
 
 FILTERS_LIST = {
     '__task_to': task_to,
     '__task_from': task_from,
+    '__task_order_by': task_order_by,
 }
 
 

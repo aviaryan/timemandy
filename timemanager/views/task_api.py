@@ -50,7 +50,10 @@ TASK_PARAMS = {
     },
     'to': {
         'description': 'End tasks till where'
-    }
+    },
+    'order_by': {
+        'description': 'Order by a field, example "date.desc" or "title.asc"'
+    },
 }
 
 class TaskResource():
@@ -60,6 +63,7 @@ class TaskResource():
     task_parser = reqparse.RequestParser()
     task_parser.add_argument('from', type=str, dest='__task_from')
     task_parser.add_argument('to', type=str, dest='__task_to')
+    task_parser.add_argument('order_by', type=str, dest='__task_order_by')
 
 
 

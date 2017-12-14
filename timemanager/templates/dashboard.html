@@ -24,14 +24,23 @@
 
 
 
-<div class="content mt-5">
-  <h1 class="display-3 text-center">Welcome to TimeMandy!</h1>
+<div class="content mt-3" id="target">
 </div>
+
+
+<!-- ractive templates -->
+
+{% raw %}
+<script id="template" type="text/ractive">
+  <h1 class="text-center">Hi {{name}}</h1>
+</script>
+{% endraw %}
 
 {% endblock %}
 
 
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/1.0.0-build-99/ractive.min.js"></script>
 <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 {% endblock %}
 

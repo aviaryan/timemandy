@@ -38,9 +38,10 @@ class UserDAO(BaseDAO):
         # validate
         data = self.validate(data)
         # gen phash
-        phash = hash_password(data['password'])
+        phash, salt = hash_password(data['password'])
         del data['password']
         data['phash'] = phash
+        data['salt'] = salt.decode('utf-8')
         # save to database
         user = self.model(**data)
         if not save_to_db(user):

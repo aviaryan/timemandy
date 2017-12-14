@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False, unique=True)
     phash = db.Column(db.String, nullable=False)
+    salt = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
 
     pref_wh = db.Column(db.Float, nullable=False, default=0)

@@ -70,8 +70,9 @@ class UserDAO(BaseDAO):
         if current_user and current_user.is_admin:  # all is good
             return data
         if current_user and current_user.is_manager:  # can change own power, not anyone else
-            if current_user.id == id_:
-                data['is_admin'] = False  # don't allow to make them admin
+            data['is_admin'] = False  # don't allow to make anyone admin
+            if current_user.id != id_:
+                data['is_manager'] = False  # this happens in new user case
             return data
         # normal user case
         data['is_admin'] = False

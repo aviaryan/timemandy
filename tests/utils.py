@@ -70,3 +70,16 @@ def send_get_request(interface, token, path):
         headers={'Authorization': 'Bearer ' + token}
     )
     return resp
+
+
+def send_post_request(interface, path, data, token=None):
+    headers = {'content-type': 'application/json'}
+    if token:
+        headers['Authorization'] = 'Bearer ' + token
+    resp = interface.app.post(
+        path,
+        data=json.dumps(data),
+        headers=headers,
+        follow_redirects=True
+    )
+    return resp

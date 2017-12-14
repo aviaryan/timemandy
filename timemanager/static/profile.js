@@ -53,6 +53,14 @@ function getUserInfo(){
 }
 
 
+function showMessage(message){
+	$("#errorMessage").text(message);
+	setTimeout(function(){
+		$("#errorMessage").text('');
+	}, 3000);
+}
+
+
 function handleSave(){
 	var user = ractive.get('user');
 	console.log(user);
@@ -69,10 +77,32 @@ function handleSave(){
 		success: function(resp){
 			console.log(resp);
 			ractive.set('oldUser', userObj); // not live updated
+			showMessage('Updated successfully');
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);
-			$("#errorMessage").text(xhr.responseJSON['message']);
+			showMessage(xhr.responseJSON['message']);
+		}
+	});
+}
+
+
+function handleDelete(){
+	$.ajax({
+		type: 'DELETE',
+		url: '/api/v1/users/' + userObj.id,
+		dataType: 'json',
+		beforeSend: function(request) {
+	    request.setRequestHeader("Authorization", 'Bearer ' + token);
+	  },
+		success: function(resp){
+			console.log(resp);
+			showMessage('User deleted');
+			$("#logoutButton").click();
+		},
+		error: function(xhr, status, error){
+			console.log(xhr.responseJSON['message']);
+			$("#editTaskErrorMessage").text(xhr.responseJSON['message']);
 		}
 	});
 }

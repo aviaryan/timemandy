@@ -2,7 +2,7 @@
 
 A time management full stack application
 
-Please see the [docs](docs/) folder for documentation.
+Please see the [docs](http://git.toptal.com/screening/avi-aryan/tree/master/docs) folder for documentation.
 
 
 ### Requirements

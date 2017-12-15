@@ -61,6 +61,8 @@ function handleTaskSave(){
 			console.log(resp);
 			$('#newModal').modal('hide'); // hide modal
 			ractive.push('tasks', resp);
+			// full update
+			getUserTasks();
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

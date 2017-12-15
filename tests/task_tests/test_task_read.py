@@ -50,3 +50,26 @@ class TestTaskRead(TimeManagerTestCase):
         self.assertIn('70', resp.data.decode('utf-8'))
         resp = send_get_request(self, 'api/v1/tasks/1', token=token)
         self.assertIn('man', resp.data.decode('utf-8'))
+
+
+class TestTaskListRead(TimeManagerTestCase):
+    def test_admin_can_read_normals_task(self):
+        token = login(self, 'normal5@gmail.com', 'password')
+        resp = create_task(self, token, msg='normal')
+        token = login(self, 'admin1@gmail.com', 'password')
+        resp = send_get_request(self, 'api/v1/tasks/all', token=token)
+        self.assertIn('normal', resp.data.decode('utf-8'))
+
+    def test_admin_can_read_managers_task(self):
+        token = login(self, 'man3@gmail.com', 'password')
+        resp = create_task(self, token, msg='manager')
+        token = login(self, 'admin1@gmail.com', 'password')
+        resp = send_get_request(self, 'api/v1/tasks/all', token=token)
+        self.assertIn('manager', resp.data.decode('utf-8'))
+
+    def test_user_can_read_own_task(self):
+        token = login(self, 'normal5@gmail.com', 'password')
+        resp = create_task(self, token, msg='normal')
+        token = login(self, 'normal5@gmail.com', 'password')
+        resp = send_get_request(self, 'api/v1/tasks', token=token)
+        self.assertIn('normal', resp.data.decode('utf-8'))

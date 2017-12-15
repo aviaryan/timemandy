@@ -85,7 +85,7 @@ def login(interface, email, password):
 
 
 def send_get_request(interface, path, token=None):
-    headers = {'content-type': 'application/json'}
+    headers = {}
     if token:
         headers['Authorization'] = 'Bearer ' + token
     resp = interface.app.get(

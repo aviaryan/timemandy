@@ -15,3 +15,7 @@
 .green {
 	background-color: #00dd00;
 }
+
+td:hover {
+	cursor: pointer;
+}

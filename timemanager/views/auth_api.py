@@ -28,7 +28,7 @@ class Login(Resource):
         data = self.api.payload
         user = UserModel.query.filter_by(email=data['email']).first()
         if user is None:
-            raise NotAuthorizedError('Bad login credentials')
+            raise NotAuthorizedError('User with that email does not exist')
         # generate and verify phash
         phash, _ = hash_password(data['password'], salt=user.salt)
         # print(user, user.phash, phash)
@@ -36,4 +36,4 @@ class Login(Resource):
             token = generate_token(user)
             return {'token': token}
         else:
-            raise NotAuthorizedError('Bad login credentials')
+            raise NotAuthorizedError('Bad Credentials. Contact sa@gmail.com if you have forgotten password.')

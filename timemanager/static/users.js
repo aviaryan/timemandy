@@ -39,6 +39,10 @@ function getUserInfo(){
 		success: function(resp){
 			userObj = resp;
 			ractive.set('active_user', userObj);
+			// hide button
+			if (!(userObj.is_admin || userObj.is_manager)){
+				$("#all_users_btn").hide();
+			}
 			// load users
 			getUsers();
 		},

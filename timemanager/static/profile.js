@@ -45,6 +45,10 @@ function getUserInfo(){
 			userObj = resp;
 			ractive.set('user', userObj);
 			ractive.set('oldUser', userObj); // not live updated
+			// hide button
+			if (!(userObj.is_admin || userObj.is_manager)){
+				$("#all_users_btn").hide();
+			}
 		},
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);

@@ -110,3 +110,8 @@ function handleDelete(){
 		}
 	});
 }
+
+
+function openChangePassword(){
+	window.location.href = '/users/change_password/' + userObj.id;
+}

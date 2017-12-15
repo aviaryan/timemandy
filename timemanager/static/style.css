@@ -19,3 +19,7 @@
 td:hover {
 	cursor: pointer;
 }
+
+.content-small {
+	max-width: 600px;
+}

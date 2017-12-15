@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+<script type="text/javascript">
+  deleteCookie('token');
+  checkLogin();
+</script>
+
+{% endblock %}

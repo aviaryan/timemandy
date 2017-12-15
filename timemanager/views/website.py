@@ -21,3 +21,12 @@ def profile():
 def users():
     return render_template('users.html')
 
+
+@app.route('/users/change_password/<user_id>')
+def change_password(user_id):
+    return render_template('change_password.html')
+
+
+@app.route('/logout')
+def logout():
+    return render_template('logout.html')

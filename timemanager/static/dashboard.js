@@ -170,7 +170,7 @@ function handleFilterExport(){
 	var days = {};
 	var times = {};
 
-	allTasks.forEach(function(task){
+	ractive.get('tasks').forEach(function(task){
 		var date = task.date.replace(/T.*/, '');
 		if (date in days){
 			days[date].push(task);

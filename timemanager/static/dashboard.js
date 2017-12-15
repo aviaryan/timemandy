@@ -238,7 +238,7 @@ function getUserInfo(){
 	  },
 		success: function(resp){
 			userObj = resp;
-			var name = resp['fullname'] || resp['username'];
+			var name = resp['full_name'] || resp['username'];
 			ractive.set('name', name);
 			ractive.set('isAdmin', userObj.is_admin);
 			// hide button

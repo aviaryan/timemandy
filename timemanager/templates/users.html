@@ -3,10 +3,15 @@
 {% block mid_content %}
 {% raw %}
 
-<div id="target">
+<div id="target" class="content">
 </div>
 
 <script id="template" type="text/ractive">
+
+
+  <div class="mt-4">
+    <button class="btn btn-success" data-toggle="modal" data-target="#newModal">Add new user</button>
+  </div>
 
 <!-- table -->
   <div class="mt-4">
@@ -98,6 +103,68 @@
     </div>
   </div>
 </div>
+
+
+<!-- new user modal -->
+
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newLabel">Create user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="username" class="col-form-label">Username</label>
+            <input type="text" class="form-control" value="{{new_user.username}}">
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-form-label">Email</label>
+            <input type="email" class="form-control" value="{{new_user.email}}">
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Full Name</label>
+            <input type="text" class="form-control" value="{{new_user.full_name}}">
+          </div>
+          <div class="form-group">
+            <label class="col-form-label">Pref Working Hours</label>
+            <input type="number" class="form-control" min="0" max="24" value="{{new_user.pref_wh}}">
+          </div>
+          <div class="form-group">
+            <label for="prefwh" class="col-form-label">Password</label>
+            <input type="password" class="form-control" value="{{new_user.password}}">
+          </div>
+          <div class="form-group">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" name="is_admin" checked='{{new_user.is_admin}}'
+                disabled="{{!active_user.is_admin}}">
+              Is Admin?
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" name="is_manager" checked='{{new_user.is_manager}}'
+                disabled="{{!active_user.is_admin}}">
+              Is Manager?
+            </label>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span id="newErrorMessage" class="text-danger"></span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" on-click="@global.createUser()">Create user</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 </script>
 

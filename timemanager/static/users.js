@@ -108,6 +108,13 @@ function showMessage(message){
 }
 
 
+function showNewMessage(message){
+	$("#newErrorMessage").text(message);
+	setTimeout(function(){
+		$("#newErrorMessage").text('');
+	}, 3000);
+}
+
 function updateUser(){
 	var user = ractive.get('edit_user');
 	console.log(user);
@@ -156,6 +163,32 @@ function deleteUser(){
 		error: function(xhr, status, error){
 			console.log(xhr.responseJSON['message']);
 			$("#editTaskErrorMessage").text(xhr.responseJSON['message']);
+		}
+	});
+}
+
+
+function createUser(){
+	var user = ractive.get('new_user');
+	console.log(user);
+
+	$.ajax({
+		type: 'POST',
+		url: '/api/v1/users',
+		dataType: 'json',
+		beforeSend: function(request) {
+	    request.setRequestHeader("Authorization", 'Bearer ' + token);
+	  },
+		data: JSON.stringify(user),
+		contentType: 'application/json',
+		success: function(resp){
+			console.log(resp);
+			$('#newModal').modal('hide'); // hide modal
+			getUsers();  // refresh
+		},
+		error: function(xhr, status, error){
+			console.log(xhr.responseJSON['message']);
+			showNewMessage(xhr.responseJSON['message']);
 		}
 	});
 }

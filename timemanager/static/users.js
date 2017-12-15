@@ -85,6 +85,11 @@ function userEdit(event){
 }
 
 
+function clearForms(){
+	$('form').trigger("reset");
+}
+
+
 function launchEditBox(userID){
 	$.ajax({
 		type: 'GET',
@@ -136,6 +141,7 @@ function updateUser(){
 		success: function(resp){
 			console.log(resp);
 			$('#editModal').modal('hide'); // hide modal
+			clearForms();
 			getUsers();  // refresh
 		},
 		error: function(xhr, status, error){
@@ -160,6 +166,7 @@ function deleteUser(){
 		success: function(resp){
 			console.log(resp);
 			$('#editModal').modal('hide'); // hide modal
+			clearForms();
 			if (user.id === userObj.id){ // deleted themselves
 				$("#logoutButton").click();
 			}
@@ -189,6 +196,7 @@ function createUser(){
 		success: function(resp){
 			console.log(resp);
 			$('#newModal').modal('hide'); // hide modal
+			clearForms();
 			getUsers();  // refresh
 		},
 		error: function(xhr, status, error){

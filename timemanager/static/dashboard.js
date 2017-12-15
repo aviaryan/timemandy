@@ -60,6 +60,7 @@ function handleTaskSave(){
 		success: function(resp){
 			console.log(resp);
 			$('#newModal').modal('hide'); // hide modal
+			clearForms();
 			ractive.push('tasks', resp);
 			// full update
 			getUserTasks();
@@ -93,6 +94,7 @@ function handleTaskUpdate(){
 		success: function(resp){
 			console.log(resp);
 			$('#editModal').modal('hide'); // hide modal
+			clearForms();
 			// update
 			getUserTasks();
 		},
@@ -101,6 +103,10 @@ function handleTaskUpdate(){
 			$("#editTaskErrorMessage").text(xhr.responseJSON['message']);
 		}
 	});
+}
+
+function clearForms(){
+	$('form').trigger("reset");
 }
 
 function handleTaskDelete(){
@@ -117,6 +123,7 @@ function handleTaskDelete(){
 		success: function(resp){
 			console.log(resp);
 			$('#editModal').modal('hide'); // hide modal
+			clearForms();
 			// update
 			getUserTasks();
 		},

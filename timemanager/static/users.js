@@ -42,6 +42,7 @@ function getUserInfo(){
 			// hide button
 			if (!(userObj.is_admin || userObj.is_manager)){
 				$("#all_users_btn").hide();
+				window.location.href = '/dashboard';
 			}
 			// load users
 			getUsers();

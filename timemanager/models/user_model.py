@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     salt = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
 
-    pref_wh = db.Column(db.Float, nullable=False, default=0)
+    pref_wh = db.Column(db.Float, nullable=False, default=4.0)
     full_name = db.Column(db.String(50), nullable=True)
 
     is_admin = db.Column(db.Boolean, nullable=False, default=False)

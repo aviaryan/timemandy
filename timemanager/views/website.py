@@ -16,3 +16,8 @@ def dashboard():
 def profile():
     return render_template('profile.html')
 
+
+@app.route('/users')
+def users():
+    return render_template('users.html')
+

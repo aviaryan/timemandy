@@ -1,0 +1,110 @@
+{% extends "dashboard.html" %}
+
+{% block mid_content %}
+{% raw %}
+
+<div id="target">
+</div>
+
+<script id="template" type="text/ractive">
+
+<!-- table -->
+  <div class="mt-4">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Full Name</th>
+        <th scope="col">Pref Work Hours</th>
+        <th scope="col">Is Admin?</th>
+        <th scope="col">Is Manager?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr on-click="@global.userEdit(@event)">
+      <td class="user_id">{{id}}</td>
+      <td>{{username}}</td>
+      <td>{{email}}</td>
+      <td>{{full_name}}</td>
+      <td>{{pref_wh}}</td>
+      <td>{{is_admin}}</td>
+      <td>{{is_manager}}</td>
+      </tr>
+    {{/each}}
+    </tbody>
+  </table>
+  </div>
+
+
+<!-- user edit modal -->
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editLabel">Update user</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="userID" class="col-form-label">User ID</label>
+            <input type="number" class="form-control" id="userID" min="1" value="{{edit_user.id}}" disabled="disabled">
+          </div>
+          <div class="form-group">
+            <label for="username" class="col-form-label">Username</label>
+            <input type="text" class="form-control" id="username" value="{{edit_user.username}}">
+          </div>
+          <div class="form-group">
+            <label for="email" class="col-form-label">Email</label>
+            <input type="email" class="form-control" id="email" value="{{edit_user.email}}">
+          </div>
+          <div class="form-group">
+            <label for="full_name" class="col-form-label">Full Name</label>
+            <input type="text" class="form-control" id="full_name" value="{{edit_user.full_name}}">
+          </div>
+          <div class="form-group">
+            <label for="prefwh" class="col-form-label">Pref Work Hrs</label>
+            <input type="number" class="form-control" id="prefwh" min="0" value="24" value="{{edit_user.pref_wh}}">
+          </div>
+          <div class="form-group">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" name="is_admin" checked='{{edit_user.is_admin}}'
+                disabled="{{!active_user.is_admin}}">
+              Is Admin?
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" value="" name="is_manager" checked='{{edit_user.is_manager}}'
+                disabled="{{!active_user.is_admin}}">
+              Is Manager?
+            </label>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <span id="errorMessage" class="text-danger"></span>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" on-click="@global.updateUser()">Update User</button>
+        <button type="button" class="btn btn-danger" on-click="@global.deleteUser()">Delete User</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</script>
+
+{% endraw %}
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ractive/1.0.0-build-99/ractive.min.js"></script>
+<script src="{{ url_for('static', filename='users.js') }}"></script>
+{% endblock %}

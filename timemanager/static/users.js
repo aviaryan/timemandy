@@ -205,3 +205,8 @@ function createUser(){
 		}
 	});
 }
+
+
+function changePasswordUser(user_id){
+	window.location.href = '/users/change_password/' + user_id;
+}

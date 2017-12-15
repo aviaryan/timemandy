@@ -97,8 +97,9 @@
       <div class="modal-footer">
         <span id="errorMessage" class="text-danger"></span>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" on-click="@global.updateUser()">Update User</button>
-        <button type="button" class="btn btn-danger" on-click="@global.deleteUser()">Delete User</button>
+        <button type="button" class="btn btn-primary" on-click="@global.updateUser()">Update</button>
+        <button type="button" class="btn btn-danger" on-click="@global.deleteUser()">Delete</button>
+        <button type="button" class="btn btn-secondary" on-click="@global.changePasswordUser(edit_user.id)">Change Password</button>
       </div>
     </div>
   </div>

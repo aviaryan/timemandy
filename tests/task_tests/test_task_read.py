@@ -73,3 +73,9 @@ class TestTaskListRead(TimeManagerTestCase):
         token = login(self, 'normal5@gmail.com', 'password')
         resp = send_get_request(self, 'api/v1/tasks', token=token)
         self.assertIn('normal', resp.data.decode('utf-8'))
+
+    def test_user_cannot_read_all(self):
+        token = login(self, 'normal5@gmail.com', 'password')
+        resp = create_task(self, token, msg='normal')
+        resp = send_get_request(self, 'api/v1/tasks/all', token=token)
+        self.assertNotIn('normal', resp.data.decode('utf-8'))

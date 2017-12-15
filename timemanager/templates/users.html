@@ -22,7 +22,7 @@
         <th scope="col">Username</th>
         <th scope="col">Email</th>
         <th scope="col">Full Name</th>
-        <th scope="col">Pref Work Hours</th>
+        <th scope="col">Pref Work Hours / Day</th>
         <th scope="col">Is Admin?</th>
         <th scope="col">Is Manager?</th>
       </tr>
@@ -74,7 +74,7 @@
             <input type="text" class="form-control" id="full_name" value="{{edit_user.full_name}}">
           </div>
           <div class="form-group">
-            <label for="prefwh" class="col-form-label">Pref Work Hrs</label>
+            <label for="prefwh" class="col-form-label">Pref Work Hrs / Day</label>
             <input type="number" class="form-control" id="prefwh" min="0" value="24" value="{{edit_user.pref_wh}}">
           </div>
           <div class="form-group">
@@ -131,7 +131,7 @@
             <input type="text" class="form-control" value="{{new_user.full_name}}">
           </div>
           <div class="form-group">
-            <label class="col-form-label">Pref Working Hours</label>
+            <label class="col-form-label">Pref Work Hours / Day</label>
             <input type="number" class="form-control" min="0" max="24" value="{{new_user.pref_wh}}">
           </div>
           <div class="form-group">

@@ -28,7 +28,8 @@ class Login(Resource):
         data = self.api.payload
         user = UserModel.query.filter_by(email=data['email']).first()
         if user is None:
-            raise NotAuthorizedError('User with that email does not exist')
+            error_message = 'User with email ' + data['email'] + ' does not exist'
+            raise NotAuthorizedError(error_message)
         # generate and verify phash
         phash, _ = hash_password(data['password'], salt=user.salt)
         # print(user, user.phash, phash)
